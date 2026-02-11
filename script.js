@@ -393,7 +393,7 @@ canvas.addEventListener('mousemove', e=>{
     tooltip.style.display='block';
     tooltip.style.left = e.clientX+10+'px';
     tooltip.style.top = e.clientY+10+'px';
-    const totalTroops = Math.round(getNationTotalTroops(hoverHex.owner));
+    const totalTroops = Math.floor(getNationTotalTroops(hoverHex.owner));
     const maxTroops = getNationMaxTroops(hoverHex.owner);
     tooltip.innerHTML = `<b>${t.nationName}</b><br>Troops: ${totalTroops}/${maxTroops}<br>ATK: ${t.strength.toFixed(1)} DEF: ${t.defense.toFixed(1)} HP: ${t.health.toFixed(1)}`;
   } else {
@@ -621,7 +621,7 @@ function updateSelectedNationInfo(){
     return;
   }
 
-  let totalTroops = Math.round(getNationTotalTroops(selectedEnemy));
+  let totalTroops = Math.floor(getNationTotalTroops(selectedEnemy));
   let maxTroops = getNationMaxTroops(selectedEnemy);
   let avgStrength = enemyTiles[0].strength;
   let avgDefense = enemyTiles[0].defense;
@@ -713,9 +713,9 @@ function createIsland(){
       const color = `hsl(${Math.random()*360},70%,50%)`;
       enemyColors.set(owner, color);
 
-      const distanceFromOrigin = Math.max(Math.abs(hex.q), Math.abs(hex.r));
+      const distanceFromOrigin = Math.max(Math.abs(hex.q), Math.abs(hex.r), Math.abs(-hex.q-hex.r));
       const sizeMultiplier = 1;
-      const distanceMultiplier = 1 + distanceFromOrigin * 0.15;
+      const distanceMultiplier = 1 + Math.pow(distanceFromOrigin, 1.3) * 0.2;
 
       hex.owner = owner;
       hex.nationName = nationName;
@@ -795,9 +795,9 @@ function createIsland(){
     }
 
     // Calculate stats based on nation size and distance from origin
-    const avgDistance = nationHexes.reduce((sum, h) => sum + Math.max(Math.abs(h.q), Math.abs(h.r)), 0) / nationHexes.length;
+    const avgDistance = nationHexes.reduce((sum, h) => sum + Math.max(Math.abs(h.q), Math.abs(h.r), Math.abs(-h.q-h.r)), 0) / nationHexes.length;
     const sizeMultiplier = Math.sqrt(nationHexes.length); // Grows with size but not linearly
-    const distanceMultiplier = 1 + avgDistance * 0.15;
+    const distanceMultiplier = 1 + Math.pow(avgDistance, 1.3) * 0.2;
     const randomVariation = 0.9 + Math.random() * 0.2;
 
     // Apply stats to all hexes in nation
@@ -1004,7 +1004,7 @@ function draw(){
         ctx.textBaseline = 'middle';
         ctx.shadowColor = 'rgba(0,0,0,0.8)';
         ctx.shadowBlur = 3;
-        ctx.fillText(Math.round(totalTroops), x, y);
+        ctx.fillText(Math.floor(totalTroops), x, y);
         ctx.shadowBlur = 0;
         displayedNations.add(t.owner);
     }
@@ -1023,7 +1023,7 @@ function draw(){
         ctx.textBaseline = 'middle';
         ctx.shadowColor = 'rgba(0,0,0,0.8)';
         ctx.shadowBlur = 3;
-        ctx.fillText(Math.round(totalTroops), x, y);
+        ctx.fillText(Math.floor(totalTroops), x, y);
         ctx.shadowBlur = 0;
       }
   }
@@ -1297,7 +1297,7 @@ function renderTroopStats(popCap, troopCap){
       <h3>Your Forces</h3>
       <div class="stat-line">
         <span class="stat-label">Troops:</span>
-        <span class="stat-value">${deltaText}${Math.round(resources.Troops.value)}/${Math.floor(troopCap)}</span></div>
+        <span class="stat-value">${deltaText}${Math.floor(resources.Troops.value)}/${Math.floor(troopCap)}</span></div>
       <div class="stat-line"><span class="stat-label">Attack:</span><span class="stat-value">${Math.floor(baseStr * rulerBonus)} ${rulerBonus > 1 ? '(+' + Math.floor((rulerBonus-1)*100) + '%)' : ''}</span></div>
       <div class="stat-line"><span class="stat-label">Defense:</span><span class="stat-value">${Math.floor(baseDef * rulerBonus)} ${rulerBonus > 1 ? '(+' + Math.floor((rulerBonus-1)*100) + '%)' : ''}</span></div>
       <div class="stat-line"><span class="stat-label">Health:</span><span class="stat-value">${Math.floor(baseHp * rulerBonus)} ${rulerBonus > 1 ? '(+' + Math.floor((rulerBonus-1)*100) + '%)' : ''}</span></div>
