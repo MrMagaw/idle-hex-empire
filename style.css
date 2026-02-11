@@ -103,6 +103,7 @@ canvas {
   background-color: #0f0f1e;
   box-shadow: 0 8px 16px rgba(0,0,0,0.7);
   cursor: pointer;
+  align-self: flex-start;
 }
 #upgrades {
   margin-top: 8px;
