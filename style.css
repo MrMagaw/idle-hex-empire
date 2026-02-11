@@ -1,0 +1,263 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+  overflow: hidden;
+}
+#gameContainer {
+  display: flex;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+#stats {
+  width: 360px;
+  background: linear-gradient(135deg, #1e1e1e 0%, #2a2a3e 100%);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+  border: 1px solid #333;
+}
+#stats h2, #stats h3 {
+  margin-top: 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+#stats h2 {
+  font-size: 24px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 8px;
+}
+.resource {
+  margin: 8px 0;
+  position: relative;
+  background: #2a2a2a;
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 3px solid #4caf50;
+}
+.resource.warning {
+  border-left-color: #ff9800;
+}
+.resource.full {
+  border-left-color: #f44336;
+}
+button {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a3a4a 0%, #2a2a3a 100%);
+  border: 1px solid #555;
+  color: #e0e0e0;
+  font-weight: bold;
+  position: relative;
+  min-width: 220px;
+  text-align: left;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+button:hover {
+  background: linear-gradient(135deg, #4a4a5a 0%, #3a3a4a 100%);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+button.toggle-on {
+  background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+}
+button.toggle-on:hover {
+  background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+}
+button.prestige-btn {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  font-size: 16px;
+}
+button.prestige-btn:hover {
+  background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%);
+}
+.tooltip {
+  position: absolute;
+  background: rgba(0,0,0,0.95);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border: 1px solid #444;
+}
+canvas {
+  border: 2px solid #444;
+  border-radius: 12px;
+  background-color: #0f0f1e;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+#upgrades {
+  margin-top: 8px;
+  position: relative;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+#rightPanel {
+  width: 280px;
+}
+#troopStats, #selectedNationInfo, #gameInfo {
+  padding: 12px;
+  background: linear-gradient(135deg, #292929 0%, #1e1e2e 100%);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #333;
+}
+#selectedNationInfo {
+  min-height: 190px; /* Prevent layout shift */
+}
+#troopStats h3, #selectedNationInfo h3, #gameInfo h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 16px;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 6px;
+}
+.stat-line {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.stat-label {
+  color: #aaa;
+}
+.stat-value {
+  color: #4caf50;
+  font-weight: bold;
+}
+#notifications {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 300px;
+  z-index: 1000;
+}
+.notification {
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  color: white;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  animation: slideIn 0.3s ease-out;
+  border-left: 4px solid #4caf50;
+}
+.notification.conquest {
+  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+  border-left-color: #ff9800;
+}
+.notification.victory {
+  background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+  border-left-color: #9c27b0;
+}
+@keyframes slideIn {
+  from { transform: translateX(400px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateX(400px); }
+}
+.hex-label {
+  font-size: 11px;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.progress-bar {
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  transition: width 0.3s;
+}
+.section {
+  background: #2a2a2a;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border: 1px solid #333;
+}
+.section h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+.upgrade-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+.upgrade-name {
+  font-weight: bold;
+}
+.upgrade-meta {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+.close-btn {
+  float: right;
+  cursor: pointer;
+  color: #aaa;
+  font-weight: bold;
+}
+.close-btn:hover {
+  color: #fff;
+}
+.dynasty-node {
+  background: linear-gradient(135deg, #ffd700 0%, #ff8f00 100%);
+  color: #000;
+  padding: 15px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  position: absolute;
+  transition: transform 0.2s;
+}
+.dynasty-node:hover {
+  transform: scale(1.1);
+}
+.dynasty-node.purchased {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+}
+.dynasty-node.locked {
+  background: #444;
+  color: #888;
+  box-shadow: none;
+  cursor: not-allowed;
+}
